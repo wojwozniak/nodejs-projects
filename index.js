@@ -91,6 +91,9 @@ app.use("/api", (req, res) => {
   date = date.substring(1);
   if (date.includes('%20')) {
     date = date.replaceAll('%20', ' ');
+    if (!date.includes("GMT")) {
+      date += " GMT";
+    }
   }
   
   let dateObject = new Date(date);
