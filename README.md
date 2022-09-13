@@ -1,3 +1,4 @@
-# Timestamp Microservice
+# Solution to FCC Backend & API Certification Challenge #1 - Timestamp Microservice
 
-This is the boilerplate code for the Timestamp Microservice project. Instructions for building your project can be found at https://www.freecodecamp.org/learn/apis-and-microservices/apis-and-microservices-projects/timestamp-microservice
+Solution in index.js
+Old code that passes almost all tests but bugs (prob. because of time zomes) in oldcode.js
