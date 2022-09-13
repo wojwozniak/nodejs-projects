@@ -30,6 +30,7 @@ app.get("/api/hello", function (req, res) {
 // End of boilerplate code
 
 app.get('/api/:request', (req, res) => {
+  res.set({ 'Content-Type': 'application/json' });
   let request = req.params.request;
   let unixFromDate = new Date(request).getTime();
   let parsedUnix = new Date(parseInt(request)).getTime();
@@ -59,6 +60,7 @@ app.get('/api/:request', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
+  res.set({ 'Content-Type': 'application/json' });
   res.json({
     unix:moment().unix()*1000,
     utc:new Date().toUTCString()
