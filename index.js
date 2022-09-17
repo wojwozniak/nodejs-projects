@@ -1,15 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const { default: mongoose } = require('mongoose');
 const bodyParser = require('body-parser');
+const { ObjectId } = require('mongodb');
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
 // Basic Configuration
-const port = process.env.PORT || 3000;
-
 app.use(cors());
 app.use(express.static('public'));
 app.get('/', (req, res) => {
@@ -43,20 +43,17 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 });
 
-// Creating data Schema
+// Creating data Schemas
 const Schema = mongoose.Schema;
-
 const userSchema = new Schema({
   username: String,
   _id: String
 });
-
 const logSchema = new Schema({
   username: String,
   _id: String,
   log: Array
 });
-
 const exerciseSchema = new Schema({
   username: String,
   description: String,
@@ -65,14 +62,49 @@ const exerciseSchema = new Schema({
   _id: String
 });
 
-const user = mongoose.model("user", userSchema);
-const log = mongoose.model("log", logSchema);
-const exercise = mongoose.model("exercise", exerciseSchema);
+// Creating models
+const USER = mongoose.model("user", userSchema);
+const LOG = mongoose.model("log", logSchema);
+const EXERCISE = mongoose.model("exercise", exerciseSchema);
 
+// Posting new users
 app.post('/api/users', async (req, res) => {
-
+  const username = req.body.username;
+  try {
+    let findOne = await USER.findOne({
+      username: username
+    });
+    if (findOne) {
+      res.json({
+        _id: findOne._id,
+        username: findOne.username
+      })
+    } else {
+      findOne = new USER({
+        _id: ObjectId(),
+        username: username
+      })
+      await findOne.save();
+      res.json({
+        _id: findOne._id,
+        username: findOne.username
+      })
+    }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json('Server error');
+    }
 });
 
-const listener = app.listen(process.env.PORT || 3000, () => {
+//Posting new exercises
+
+app.post('/api/users/:_id/exercises', async (req, res) => {
+  console.log(req.url);
+  const exercise = req.body;
+  console.log(exercise);
+  res.send("a");
+});
+
+const listener = app.listen(3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 });
