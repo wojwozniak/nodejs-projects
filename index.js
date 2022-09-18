@@ -34,7 +34,7 @@ const uri = process.env.MONGO_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000
+  serverSelectionTimeoutMS: 5000,
 });
 
 const connection = mongoose.connection;
@@ -97,12 +97,74 @@ app.post('/api/users', async (req, res) => {
 });
 
 //Posting new exercises
-
 app.post('/api/users/:_id/exercises', async (req, res) => {
-  console.log(req.url);
-  const exercise = req.body;
-  console.log(exercise);
-  res.send("a");
+  const userId = req.params._id;
+  const description = req.body.description;
+  const duration = parseInt(req.body.duration, 10);
+  const date = new Date(req.body.date).toUTCString().substring(0,16);
+  if (date === "Invalid Date") {
+    console.log("error");
+  }
+  let username = "";
+  try {
+    let findOne = await USER.findOne({
+      id: userId
+    });
+    if (findOne) {
+      username = findOne.username;
+    }
+    let newExercise = new EXERCISE({
+      username: username,
+      description: description,
+      duration: duration,
+      date: date,
+      _id: ObjectId()
+    });
+    await newExercise.save();
+    res.send({
+      username: username,
+      description: description,
+      duration: duration,
+      date: date
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json('Server error');
+  }
+});
+
+// Get array of users
+app.get('/api/users', async (req, res) => {
+  try {
+    USER.find({}, (err, found) => {
+      if (err) console.log(err);
+      res.send(found);
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json('Server error');
+  }
+});
+
+// Get array of user logs
+app.get('/api/users/:_id/logs', async (req, res) => {
+  const userId = req.params._id;
+  try {
+    let findOne = await EXERCISE.findOne({
+      id: userId
+    });
+    if (findOne) {
+      console.log(findOne);
+      let output = new LOG({
+        _id: userId,
+        username: username,
+        
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json('Server error');
+  }
 });
 
 const listener = app.listen(3000, () => {
