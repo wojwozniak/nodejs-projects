@@ -67,7 +67,7 @@ const USER = mongoose.model("user", userSchema);
 const LOG = mongoose.model("log", logSchema);
 const EXERCISE = mongoose.model("exercise", exerciseSchema);
 
-// Posting new users
+// Post new users
 app.post('/api/users', async (req, res) => {
   const username = req.body.username;
   try {
@@ -96,7 +96,7 @@ app.post('/api/users', async (req, res) => {
     }
 });
 
-//Posting new exercises
+//Post new exercises
 app.post('/api/users/:_id/exercises', async (req, res) => {
   const userId = req.params._id;
   const description = req.body.description;
@@ -146,9 +146,10 @@ app.get('/api/users', async (req, res) => {
   }
 });
 
-// Get array of user logs
+// Get user logs
 app.get('/api/users/:_id/logs', async (req, res) => {
   const userId = req.params._id;
+  let { from, to, limit } = req.query;
   let username = "";
   let exercisesArray = [];
   try {
@@ -164,17 +165,36 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     }
     let find = await EXERCISE.find({ username: username });
     let helperObject = {};
+    if (limit === undefined) {
+      limit = find.length;
+    }
+    if (from === undefined) {
+      from = new Date(0);
+    } else {
+      from = new Date(from);
+    }
+    if (to === undefined) {
+      to = new Date();
+    } else {
+      to = new Date(to);
+    }
+    let checkDate;
+    let index = 0;
     if (find) {
-        for (let i = 0; i < find.length; i++) {
+      for (let i = 0; i < find.length; i++) {
+        checkDate = new Date(find[i].date);
+        if (checkDate > from && checkDate < to && index < limit) {
           helperObject = {
             description: find[i].description,
             duration: find[i].duration,
             date: find[i].date
           }
-          exercisesArray.push(helperObject)
+          exercisesArray.push(helperObject);
+          index++;
         }
+      }
      }
-    let count = exercisesArray.length;
+    let count = find.length;
     res.send({
       _id: userId,
       username: username,
