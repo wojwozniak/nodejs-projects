@@ -101,31 +101,31 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   const userId = req.params._id;
   const description = req.body.description;
   const duration = parseInt(req.body.duration, 10);
-  const date = new Date(req.body.date).toUTCString().substring(0,16);
+  let date = new Date(req.body.date).toDateString();
+  let newId = ObjectId();
   if (date === "Invalid Date") {
-    console.log("error");
+    date = new Date().toDateString();
   }
   let username = "";
   try {
-    let findOne = await USER.findOne({
-      id: userId
-    });
+    let findOne = await USER.find({ _id: userId });
     if (findOne) {
-      username = findOne.username;
+      username = findOne[0].username;
     }
     let newExercise = new EXERCISE({
       username: username,
       description: description,
       duration: duration,
       date: date,
-      _id: ObjectId()
+      _id: newId
     });
     await newExercise.save();
     res.send({
+      _id: userId,
       username: username,
-      description: description,
+      date: date,
       duration: duration,
-      date: date
+      description: description
     });
   } catch (err) {
     console.error(err);
@@ -149,18 +149,41 @@ app.get('/api/users', async (req, res) => {
 // Get array of user logs
 app.get('/api/users/:_id/logs', async (req, res) => {
   const userId = req.params._id;
+  let username = "";
+  let exercisesArray = [];
   try {
-    let findOne = await EXERCISE.findOne({
-      id: userId
+    let findUser = await USER.find({
+      _id: userId
     });
-    if (findOne) {
-      console.log(findOne);
-      let output = new LOG({
-        _id: userId,
-        username: username,
-        
-      });
+    if (findUser) {
+      console.log(findUser);
+      username = findUser[0].username;
+    } else {
+      res.json({
+        error: "User with that ID doesn't exist!"
+      })
     }
+    let find = await EXERCISE.find({});
+    let helperObject = {};
+    if (find) {
+        for (let i = 0; i < find.length; i++) {
+          if (find[i].username === username) {
+            helperObject = {
+              description: find[i].description,
+              duration: find[i].duration,
+              date: find[i].date
+            }
+            exercisesArray.push(helperObject)
+          }
+        }
+     }
+    let count = exercisesArray.length;
+    res.send({
+      _id: userId,
+      username: username,
+      count: count,
+      log: exercisesArray
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json('Server error');
