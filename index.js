@@ -156,25 +156,22 @@ app.get('/api/users/:_id/logs', async (req, res) => {
       _id: userId
     });
     if (findUser) {
-      console.log(findUser);
       username = findUser[0].username;
     } else {
       res.json({
         error: "User with that ID doesn't exist!"
       })
     }
-    let find = await EXERCISE.find({});
+    let find = await EXERCISE.find({ username: username });
     let helperObject = {};
     if (find) {
         for (let i = 0; i < find.length; i++) {
-          if (find[i].username === username) {
-            helperObject = {
-              description: find[i].description,
-              duration: find[i].duration,
-              date: find[i].date
-            }
-            exercisesArray.push(helperObject)
+          helperObject = {
+            description: find[i].description,
+            duration: find[i].duration,
+            date: find[i].date
           }
+          exercisesArray.push(helperObject)
         }
      }
     let count = exercisesArray.length;
