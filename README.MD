@@ -11,8 +11,6 @@ Links go to repl.it live versions of the apps.
 
 Finished and got certificate on 18.09.2022
 
-In May 2023 I started doing Quality Assurance course projects
-
 ## Quality Assurance Course (work in progress)
 - Metric-Imperial Converter
 - Issue Tracker
