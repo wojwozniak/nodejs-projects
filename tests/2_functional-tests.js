@@ -1,10 +1,76 @@
-const chaiHttp = require('chai-http');
 const chai = require('chai');
-let assert = chai.assert;
+const chaiHttp = require('chai-http');
 const server = require('../server');
 
 chai.use(chaiHttp);
 
-suite('Functional Tests', function() {
+const { assert } = chai;
+const URL = '/api/convert';
 
+suite('Functional tests', () => {
+  test('convert 10L', (done) => {
+    chai
+      .request(server)
+      .get(URL)
+      .query({ input: '10L' })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.initNum, 10);
+        assert.equal(res.body.initUnit, 'l');
+        assert.approximately(res.body.returnNum, 2.64172, 0.1);
+        assert.equal(res.body.returnUnit, 'gal');
+        done();
+      });
+  });
+
+  test('return invalid unit error (32g)', (done) => {
+    chai
+      .request(server)
+      .get(URL)
+      .query({ input: '32g' })
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        assert.equal(res.body.error, 'Invalid unit');
+        done();
+      });
+  });
+
+  test('return invalid number error (3/7.2/4kg)', (done) => {
+    chai
+      .request(server)
+      .get(URL)
+      .query({ input: '3/7.2/4kg' })
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        assert.equal(res.body.error, 'Invalid number');
+        done();
+      });
+  });
+
+  test('return both errors (3/7.2/4kilomegagram)', (done) => {
+    chai
+      .request(server)
+      .get(URL)
+      .query({ input: '3/7.2/4kilomegagram' })
+      .end((err, res) => {
+        assert.equal(res.status, 400);
+        assert.equal(res.body.error, 'Invalid number and unit');
+        done();
+      });
+  });
+
+  test('make it work for no number (kg)', (done) => {
+    chai
+      .request(server)
+      .get(URL)
+      .query({ input: 'kg' })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.equal(res.body.initNum, 1);
+        assert.equal(res.body.initUnit, 'kg');
+        assert.approximately(res.body.returnNum, 2.20462, 0.1);
+        assert.equal(res.body.returnUnit, 'lbs');
+        done();
+      });
+  });
 });
