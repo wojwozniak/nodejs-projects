@@ -1,7 +1,7 @@
-# node.js projects (backend course)
+# node.js projects
 This repo contains my solutions to FreeCodeCamp's backend development challenges.
 
-## Backend course
+## Backend Development and APIs course
 Links go to repl.it live versions of the apps.
 - [x] [Timestamp microservice](https://nodejs-project-timestamp.pulchnymamut.repl.co/)
 - [x] [Header parser](https://boilerplate-project-headerparser.pulchnymamut.repl.co/)
