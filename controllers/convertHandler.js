@@ -21,10 +21,17 @@ const ConvertHandler = () => {
     return result;
   };
 
-  this.spellOutUnit = (unit) => {
-    let result;
-    
-    return result;
+  // Function spelling out the units (used in the getString function)
+  this.spellOutUnit = (initUnit, returnUnit) => {
+    const units = {
+      gal: 'gallons',
+      l: 'liters',
+      lbs: 'pounds',
+      kg: 'kilograms',
+      mi: 'miles',
+      km: 'kilometers',
+    };
+    return [units[initUnit], units[returnUnit]];
   };
   
   this.convert = (initNum, initUnit) => {
