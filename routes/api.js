@@ -17,15 +17,15 @@ module.exports = function (app) {
 
     if (initNum === 'Invalid number' && initUnit === 'Invalid unit') {
       return res.status(400).json({
-        error: 'Invalid number and unit'
+        error: 'invalid number and unit'
       });
     } else if (initNum === 'Invalid number') {
       return res.status(400).json({
-        error: 'Invalid number'
+        error: 'invalid number'
       });
     } else if (initUnit === 'Invalid unit') {
       return res.status(400).json({
-        error: 'Invalid unit'
+        error: 'invalid unit'
       });
     }
 

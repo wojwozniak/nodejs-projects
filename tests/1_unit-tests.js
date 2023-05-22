@@ -40,13 +40,11 @@ suite('Unit Tests', function () {
         test('Each valid input unit', function () {
             const input = [
                 'gal',
-                'l',
                 'mi',
                 'km',
                 'lbs',
                 'kg',
                 'GAL',
-                'L',
                 'MI',
                 'KM',
                 'LBS',
@@ -55,6 +53,8 @@ suite('Unit Tests', function () {
             input.forEach(function (unit) {
                 assert.equal(convertHandler.getUnit(unit), unit.toLowerCase());
             });
+            assert.equal(convertHandler.getUnit('l'), 'L');
+            assert.equal(convertHandler.getUnit('L'), 'L');
         });
 
         test('Invalid input unit', function () {
@@ -65,8 +65,8 @@ suite('Unit Tests', function () {
 
     suite('Function convertHandler.getReturnUnit(initUnit)', function () {
         test('Return correct unit', function () {
-            const preconvert = ['gal', 'l', 'mi', 'km', 'lbs', 'kg'];
-            const postconvert = ['l', 'gal', 'km', 'mi', 'kg', 'lbs'];
+            const preconvert = ['gal', 'L', 'mi', 'km', 'lbs', 'kg'];
+            const postconvert = ['L', 'gal', 'km', 'mi', 'kg', 'lbs'];
             preconvert.forEach(function (unit, i) {
                 assert.equal(convertHandler.getReturnUnit(unit), postconvert[i]);
             });
@@ -75,7 +75,7 @@ suite('Unit Tests', function () {
 
     suite('Function convertHandler.spellOutUnit(unit)', function () {
         test('Return spelled-out unit', function () {
-            const input = ['gal', 'l', 'mi', 'km', 'lbs', 'kg'];
+            const input = ['gal', 'L', 'mi', 'km', 'lbs', 'kg'];
             const expected = [
                 'gallons',
                 'liters',
@@ -102,7 +102,7 @@ suite('Unit Tests', function () {
         });
 
         test('L to Gal', function () {
-            const input = [1, 'l'];
+            const input = [1, 'L'];
             const expected = 0.26417;
             assert.approximately(
                 convertHandler.convert(input[0], input[1]),
