@@ -1,8 +1,21 @@
-# node.js microservices
-This repo contains all of my solutions to FreeCodeCamp's backend development challenges. All boilerplate code comes from their repositories.
-## Live app links (via repl.it)
-- [Timestamp microservice](https://nodejs-project-timestamp.pulchnymamut.repl.co/)
-- [Header parser](https://boilerplate-project-headerparser.pulchnymamut.repl.co/)
-- [URL shortener](https://nodejs-project-urlshortener.pulchnymamut.repl.co) (mongodb used)
-- [Exercise tracker](https://nodejs-project-exercisetracker.pulchnymamut.repl.co/) (mongodb used)
-- [File metadata](https://nodejs-project-filemetadata.pulchnymamut.repl.co/) (multer.js used)
+# node.js projects (backend course)
+This repo contains my solutions to FreeCodeCamp's backend development challenges.
+
+## Backend course
+Links go to repl.it live versions of the apps.
+- [x] [Timestamp microservice](https://nodejs-project-timestamp.pulchnymamut.repl.co/)
+- [x] [Header parser](https://boilerplate-project-headerparser.pulchnymamut.repl.co/)
+- [x] [URL shortener](https://nodejs-project-urlshortener.pulchnymamut.repl.co) (mongodb used)
+- [x] [Exercise tracker](https://nodejs-project-exercisetracker.pulchnymamut.repl.co/) (mongodb used)
+- [x] [File metadata](https://nodejs-project-filemetadata.pulchnymamut.repl.co/) (multer.js used)
+
+Finished and got certificate on 18.09.2022
+
+In May 2023 I started doing Quality Assurance course projects
+
+## Quality Assurance Course (work in progress)
+- Metric-Imperial Converter
+- Issue Tracker
+- Personal Library
+- Sudoku Solver
+- American British Translator
