@@ -1,7 +1,7 @@
 // First part of the project - conversion logic
 
 
-const ConvertHandler = () => {
+function ConvertHandler() {
   
   this.getNum = (input) => {
     let result;
@@ -53,4 +53,4 @@ const ConvertHandler = () => {
 
 
 
-export default ConvertHandler;
+module.exports = ConvertHandler;
