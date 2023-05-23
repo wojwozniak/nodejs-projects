@@ -142,7 +142,9 @@ function ConvertHandler() {
       return;
     }
 
-    return `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
+    let spelledOut = this.spellOutUnit(initUnit, returnUnit);
+
+    return `${initNum} ${spelledOut[0]} converts to ${returnNum} ${spelledOut[1]}`;
   };
 }
 
