@@ -12,7 +12,7 @@ Links go to repl.it live versions of the apps.
 Finished and got certificate on 18.09.2022
 
 ## Quality Assurance Course (work in progress)
-- [x] [Metric-Imperial Converter](https://boilerplate-project-metricimpconverter.pulchnymamut.repl.co)
+- [x] [Metric-Imperial Converter](https://boilerplate-project-metricimpconverter.pulchnymamut.repl.co)  (finished 23.05.2023)
 - Issue Tracker
 - Personal Library
 - Sudoku Solver
